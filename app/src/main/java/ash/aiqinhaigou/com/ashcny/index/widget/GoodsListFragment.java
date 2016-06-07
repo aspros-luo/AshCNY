@@ -1,8 +1,11 @@
 package ash.aiqinhaigou.com.ashcny.index.widget;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -21,11 +24,11 @@ import java.util.List;
 
 import ash.aiqinhaigou.com.ashcny.R;
 import ash.aiqinhaigou.com.ashcny.api.HttpMethods;
+import ash.aiqinhaigou.com.ashcny.bean.SubjectsBean;
 import ash.aiqinhaigou.com.ashcny.index.adapter.GoodsAdapter;
 import ash.aiqinhaigou.com.ashcny.index.presenter.GoodsPresenter;
 import ash.aiqinhaigou.com.ashcny.index.presenter.GoodsPresenterImpl;
 import ash.aiqinhaigou.com.ashcny.index.view.GoodsView;
-import ash.aiqinhaigou.com.ashcny.model.Subject;
 import ash.aiqinhaigou.com.ashcny.presenter.SubscriberOnNextListener;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,7 +44,7 @@ public class GoodsListFragment extends Fragment implements SwipeRefreshLayout.On
     private LinearLayoutManager mLinearLayoutManager;
     private StaggeredGridLayoutManager mStaggerGridLayout;
     private GoodsAdapter mGoodsAdapter;
-    private List<Subject> mGoodsBeanList;
+    private List<SubjectsBean> mGoodsBeanList;
     private int pageIndex = 0;
     private RecyclerView recycleView;
     private SwipeRefreshLayout swipeRefreshWidget;
@@ -93,9 +96,9 @@ public class GoodsListFragment extends Fragment implements SwipeRefreshLayout.On
         mGoodsAdapter.setmOnItemClickListener(onItemClickListener);
         mGoodsAdapter.setmOnBtnClickListener(onBtnClickListener);
 
-        subscriberOnNextListener = new SubscriberOnNextListener<List<Subject>>() {
+        subscriberOnNextListener = new SubscriberOnNextListener<List<SubjectsBean>>() {
             @Override
-            public void onNext(List<Subject> o) {
+            public void onNext(List<SubjectsBean> o) {
                 addData(o);
                 recycleView.setAdapter(mGoodsAdapter);
             }
@@ -113,13 +116,13 @@ public class GoodsListFragment extends Fragment implements SwipeRefreshLayout.On
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
             if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisiblePositionItem >= mGoodsAdapter.getItemCount() - 1 && mGoodsAdapter.isShowFooter()) {
-                subscriberOnNextListener = new SubscriberOnNextListener<List<Subject>>() {
+                subscriberOnNextListener = new SubscriberOnNextListener<List<SubjectsBean>>() {
                     @Override
-                    public void onNext(List<Subject> o) {
+                    public void onNext(List<SubjectsBean> o) {
                         addData(o);
                     }
                 };
-                mGoodsPresenter.loadGoods(1, pageIndex, subscriberOnNextListener);
+                mGoodsPresenter.loadGoods(mType, pageIndex, subscriberOnNextListener);
                 pageIndex = pageIndex + 10;
             }
         }
@@ -146,7 +149,7 @@ public class GoodsListFragment extends Fragment implements SwipeRefreshLayout.On
 //        Log.e("fresh", "Fresh");
         if (mGoodsBeanList != null) {
             pageIndex = 0;
-            mGoodsBeanList = new ArrayList<Subject>();
+            mGoodsBeanList = new ArrayList<SubjectsBean>();
         }
         mGoodsPresenter.loadGoods(mType, pageIndex, subscriberOnNextListener);
 
@@ -159,11 +162,11 @@ public class GoodsListFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     @Override
-    public void addData(List<Subject> goodsBeanList) {
+    public void addData(List<SubjectsBean> goodsBeanList) {
         mGoodsAdapter.isShowFooter(true);
 
         if (mGoodsBeanList == null) {
-            mGoodsBeanList = new ArrayList<Subject>();
+            mGoodsBeanList = new ArrayList<SubjectsBean>();
         }
 //        mGoodsBeanList.addAll(goodsBeanList);
 //        if (pageIndex == 0) {
@@ -210,7 +213,12 @@ public class GoodsListFragment extends Fragment implements SwipeRefreshLayout.On
     private GoodsAdapter.OnItemClickListener onItemClickListener = new GoodsAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(View view, int position) {
-            Toast.makeText(getActivity(), mGoodsAdapter.getItem(position).getTitle(), Toast.LENGTH_SHORT).show();
+
+            SubjectsBean subjectsBean = mGoodsAdapter.getItem(position);
+            Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
+            intent.putExtra("goodsId",subjectsBean.getId());
+
+            startActivity(intent);
         }
     };
 
