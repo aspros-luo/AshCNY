@@ -7,7 +7,6 @@ import java.util.List;
 import ash.aiqinhaigou.com.ashcny.index.model.GoodsModel;
 import ash.aiqinhaigou.com.ashcny.index.model.GoodsModelImpl;
 import ash.aiqinhaigou.com.ashcny.index.view.GoodsView;
-import ash.aiqinhaigou.com.ashcny.model.Subject;
 import ash.aiqinhaigou.com.ashcny.presenter.SubscriberOnNextListener;
 import rx.Subscriber;
 
@@ -32,6 +31,9 @@ public class GoodsPresenterImpl implements GoodsPresenter, GoodsModelImpl.OnLoad
 //        }
         goodsModel.loadGoods(url, type,pageIndex, this,subscriberOnNextListener);
     }
+
+
+
 
     @Override
     public void onSuccess() {
