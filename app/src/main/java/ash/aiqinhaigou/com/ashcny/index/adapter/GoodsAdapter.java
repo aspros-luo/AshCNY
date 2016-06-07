@@ -3,7 +3,6 @@ package ash.aiqinhaigou.com.ashcny.index.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +16,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.List;
 
 import ash.aiqinhaigou.com.ashcny.R;
-import ash.aiqinhaigou.com.ashcny.bean.GoodsBean;
-import ash.aiqinhaigou.com.ashcny.model.Subject;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import ash.aiqinhaigou.com.ashcny.bean.SubjectsBean;
 
 /**
  * Created by Aspros on 16/5/31.
@@ -31,7 +27,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int TYPE_FOOTER = 1;
 
 
-    private List<Subject> mData;
+    private List<SubjectsBean> mData;
     public boolean mShowFooter = true;
     private Context mContext;
 
@@ -47,7 +43,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.mOnBtnClickListener = mOnBtnClickListener;
     }
 
-    public Subject getItem(int position) {
+    public SubjectsBean getItem(int position) {
         return mData == null ? null : mData.get(position);
     }
 
@@ -55,7 +51,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.mContext = mContext;
     }
 
-    public void setmData(List<Subject> mData) {
+    public void setmData(List<SubjectsBean> mData) {
         this.mData = mData;
         this.notifyDataSetChanged();
     }
@@ -99,7 +95,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-//        Log.e("BindPosition", "" + position);
+
         //显示图片的配置
         DisplayImageOptions options = new DisplayImageOptions.Builder()
 //                .showImageOnLoading(R.drawable.)
@@ -109,14 +105,20 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
 
-        Subject subject = mData.get(position);
+        SubjectsBean subject = mData.get(position);
         ImageLoader.getInstance().displayImage(subject.getImages().getLarge(), ((ItemViewHolder) holder).movieImg, options);
         ((ItemViewHolder) holder).movieTitle.setText(subject.getTitle());
         ((ItemViewHolder) holder).movieOriginalTitle.setText(subject.getOriginal_title());
         ((ItemViewHolder) holder).movieYear.setText(subject.getYear());
-//        ((ItemViewHolder)holder).addShoppingCarBtn
-//        ((ItemViewHolder) holder).movieDirector.setText(subject.getDirectors().get(position).getName());
 
+        String directorsName="";
+
+        for(SubjectsBean.DirectorsBean directorsBean:subject.getDirectors())
+        {
+          directorsName=  directorsBean.getName();
+        }
+
+        ((ItemViewHolder) holder).movieDirector.setText(directorsName);
     }
 
     public class FooterViewHolder extends RecyclerView.ViewHolder {
@@ -184,7 +186,6 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 default:
                     break;
             }
-            Log.e("id", v.getId() + "");
         }
     }
 }
