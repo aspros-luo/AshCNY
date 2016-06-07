@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 import ash.aiqinhaigou.com.ashcny.bean.MovieBean;
 import ash.aiqinhaigou.com.ashcny.bean.SubjectsBean;
 import ash.aiqinhaigou.com.ashcny.model.HttpResult;
-import ash.aiqinhaigou.com.ashcny.model.Subject;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -60,20 +59,20 @@ public class HttpMethods {
      * @param start      起始位置
      * @param count      获取长度
      */
-    public void getTopMovie(Subscriber<List<Subject>> subscriber, int start, int count) {
-
-//        movieService.getTopMovie(start, count)
-//                .map(new HttpResultFunc<List<Subject>>())
-//                .subscribeOn(Schedulers.io())
-//                .unsubscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(subscriber);
-
-        Observable observable = movieService.getTopMovie(start, count)
-                .map(new HttpResultFunc<List<Subject>>());
-
-        toSubscribe(observable, subscriber);
-    }
+//    public void getTopMovie(Subscriber<List<Subject>> subscriber, int start, int count) {
+//
+////        movieService.getTopMovie(start, count)
+////                .map(new HttpResultFunc<List<Subject>>())
+////                .subscribeOn(Schedulers.io())
+////                .unsubscribeOn(Schedulers.io())
+////                .observeOn(AndroidSchedulers.mainThread())
+////                .subscribe(subscriber);
+//
+//        Observable observable = movieService.getTopMovie(start, count)
+//                .map(new HttpResultFunc<List<Subject>>());
+//
+//        toSubscribe(observable, subscriber);
+//    }
 
     public void getGoodsBean(Subscriber<List<SubjectsBean>> subscriber, int start, int count) {
 
