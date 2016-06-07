@@ -6,7 +6,6 @@ import java.util.List;
 import ash.aiqinhaigou.com.ashcny.bean.MovieBean;
 import ash.aiqinhaigou.com.ashcny.bean.SubjectsBean;
 import ash.aiqinhaigou.com.ashcny.model.HttpResult;
-import ash.aiqinhaigou.com.ashcny.model.Subject;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -26,8 +25,8 @@ public interface MovieService {
 //    @GET("top250")
 //    Observable<HttpResult<List<Subject>>> getTopMovie(@Query("start") int start, @Query("count") int count);
 
-    @GET("top250")
-    Observable<HttpResult<List<Subject>>> getTopMovie(@Query("start") int start, @Query("count") int count);
+//    @GET("top250")
+//    Observable<HttpResult<List<Subject>>> getTopMovie(@Query("start") int start, @Query("count") int count);
 
     /**
      * 用于查询Top250 使用@Query 拼接参数
