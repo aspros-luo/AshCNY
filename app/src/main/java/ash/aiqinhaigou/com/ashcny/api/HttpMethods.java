@@ -3,7 +3,8 @@ package ash.aiqinhaigou.com.ashcny.api;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import ash.aiqinhaigou.com.ashcny.bean.GoodsBean;
+import ash.aiqinhaigou.com.ashcny.bean.MovieBean;
+import ash.aiqinhaigou.com.ashcny.bean.SubjectsBean;
 import ash.aiqinhaigou.com.ashcny.model.HttpResult;
 import ash.aiqinhaigou.com.ashcny.model.Subject;
 import okhttp3.OkHttpClient;
@@ -73,15 +74,70 @@ public class HttpMethods {
 
         toSubscribe(observable, subscriber);
     }
-    public void getGoodsBean(Subscriber<List<GoodsBean>> subscriber, int start, int count) {
+
+    public void getGoodsBean(Subscriber<List<SubjectsBean>> subscriber, int start, int count) {
 
         Observable observable = movieService.getGoodsBean(start, count)
-                .map(new HttpResultFunc<List<GoodsBean>>());
+                .map(new HttpResultFunc<List<SubjectsBean>>());
 
 
         toSubscribe(observable, subscriber);
     }
 
+    /**
+     * 获取豆瓣最新地区的电影
+     *
+     * @param subscriber 观察者对象
+     * @param city       参数：城市（可用id或者中文）
+     * @param start      参数：起始位置
+     * @param count      参数：长度
+     */
+    public void getInTheaters(Subscriber<List<SubjectsBean>> subscriber, String city, int start, int count) {
+        Observable observable = movieService.getInTheaters(city, start, count)
+                .map(new HttpResultFunc<List<SubjectsBean>>());
+
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 用于获取即将上映电影的信息
+     *
+     * @param subscriber 观察这者对象
+     * @param start      参数：起始位置
+     * @param count      参数：长度
+     */
+    public void getComeSoon(Subscriber<List<SubjectsBean>> subscriber, int start, int count) {
+        Observable observable = movieService.getComeSoon(start, count)
+                .map(new HttpResultFunc<List<SubjectsBean>>());
+
+
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 用于获取电影详细信息
+     *
+     * @param subscriber 观察者对象
+     * @param id         参数：电影Id
+     */
+    public void getMovieDetail(Subscriber<MovieBean> subscriber, String id) {
+        Observable<MovieBean> observable = movieService.getMovieDetail(id)
+                .map(new Func1<MovieBean, MovieBean>() {
+                    @Override
+                    public MovieBean call(MovieBean movieBean) {
+                        return movieBean;
+                    }
+                });
+        toSubscribe(observable, subscriber);
+    }
+
+    /**
+     * 用于订阅事件
+     *
+     * @param o   被观察者对象
+     * @param s   观察者对象
+     * @param <T>
+     */
     private <T> void toSubscribe(Observable<T> o, Subscriber<T> s) {
         o.subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -92,7 +148,7 @@ public class HttpMethods {
     /**
      * 用来统一处理Http的resultCode,并将HttpResult的Data部分剥离出来返回给subscriber
      *
-     * @param <T> Subscriber真正需要的数据类型，也就是Data部分的数据类型
+     * @param <T> Subscriber真正需要的数据类型，也就是Subject部分的数据类型
      */
     private class HttpResultFunc<T> implements Func1<HttpResult<T>, T> {
 
@@ -104,5 +160,4 @@ public class HttpMethods {
             return httpResult.getSubjects();
         }
     }
-
 }
