@@ -191,8 +191,8 @@ public class GoodsListFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     @Override
-    public void showFailMsg() {
-        Toast.makeText(getActivity(), "something error", Toast.LENGTH_SHORT).show();
+    public void showFailMsg(String msg ,Throwable e) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -216,7 +216,7 @@ public class GoodsListFragment extends Fragment implements SwipeRefreshLayout.On
 
             SubjectsBean subjectsBean = mGoodsAdapter.getItem(position);
             Intent intent = new Intent(getActivity(), GoodsDetailActivity.class);
-            intent.putExtra("goodsId",subjectsBean.getId());
+            intent.putExtra("goodsId", subjectsBean.getId());
 
             startActivity(intent);
         }
