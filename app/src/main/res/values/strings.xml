@@ -96,4 +96,7 @@
     <string name="progress">进度</string>
     <string name="sumCount">总需人次</string>
     <string name="addShoppingCar">加入清单</string>
+    <string name="login_name">帐号:</string>
+    <string name="login_password">密码:</string>
+    <string name="login_btn_string">登录</string>
 </resources>
