@@ -16,24 +16,6 @@ public class GoodsModelImpl implements GoodsModel {
 
     @Override
     public void loadGoods(String url, int type, int pageIndex, final OnLoadGoodsListListener listListener, final SubscriberOnNextListener subscriberOnNextListener) {
-//        HttpMethods.getInstance().getTopMovie(new Subscriber<List<Subject>>() {
-//            @Override
-//            public void onCompleted() {
-//                listListener.onSuccess();
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                listListener.onFailure(e.getMessage(), e);
-//            }
-//
-//            @Override
-//            public void onNext(List<Subject> subjects) {
-//                if (subscriberOnNextListener != null) {
-//                    subscriberOnNextListener.onNext(subjects);
-//                }
-//            }
-//        }, pageIndex, 10);
         switch (type) {
             case HotFragment.TAB_TAG_HOT:
                 HttpMethods.getInstance().getGoodsBean(new Subscriber<List<SubjectsBean>>() {
@@ -96,13 +78,28 @@ public class GoodsModelImpl implements GoodsModel {
                 }, pageIndex, 10);
                 break;
             case HotFragment.TAB_TAG_SUM_COUNT:
-//                id = Urls.JOKE_ID;
+                HttpMethods.getInstance().getInTheaters(new Subscriber<List<SubjectsBean>>() {
+                    @Override
+                    public void onCompleted() {
+                        listListener.onSuccess();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        listListener.onFailure(e.getMessage(), e);
+                    }
+
+                    @Override
+                    public void onNext(List<SubjectsBean> subjectsBeen) {
+                        if (subscriberOnNextListener != null) {
+                            subscriberOnNextListener.onNext(subjectsBeen);
+                        }
+                    }
+                }, "武汉", pageIndex, 10);
                 break;
             default:
-//                id = Urls.TOP_ID;
                 break;
         }
-
     }
 
     @Override
@@ -129,7 +126,6 @@ public class GoodsModelImpl implements GoodsModel {
 
     public interface OnLoadGoodsListListener {
         void onSuccess();
-
         void onFailure(String msg, Throwable e);
     }
 }
