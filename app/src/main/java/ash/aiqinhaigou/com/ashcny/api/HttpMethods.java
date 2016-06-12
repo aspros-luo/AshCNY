@@ -154,7 +154,7 @@ public class HttpMethods {
         @Override
         public T call(HttpResult<T> httpResult) {
             if (httpResult.getCount() == 0) {
-                throw new ApiException(100);
+                throw new ApiException(0);
             }
             return httpResult.getSubjects();
         }
