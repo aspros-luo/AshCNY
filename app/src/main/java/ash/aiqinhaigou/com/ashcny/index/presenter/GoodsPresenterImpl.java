@@ -29,11 +29,8 @@ public class GoodsPresenterImpl implements GoodsPresenter, GoodsModelImpl.OnLoad
 //        if (pageIndex == 0) {
 //            goodsView.showProgress();
 //        }
-        goodsModel.loadGoods(url, type,pageIndex, this,subscriberOnNextListener);
+        goodsModel.loadGoods(url, type, pageIndex, this, subscriberOnNextListener);
     }
-
-
-
 
     @Override
     public void onSuccess() {
@@ -43,6 +40,6 @@ public class GoodsPresenterImpl implements GoodsPresenter, GoodsModelImpl.OnLoad
     @Override
     public void onFailure(String msg, Throwable e) {
         goodsView.hideProgress();
-        goodsView.showFailMsg();
+        goodsView.showFailMsg(msg,e);
     }
 }
