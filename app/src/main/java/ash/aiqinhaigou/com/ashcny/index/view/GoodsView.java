@@ -14,5 +14,5 @@ public interface GoodsView {
     // after load data ,we need to hide progress bar
     void hideProgress();
     // if we make a mistake ,we need to show the msg
-    void showFailMsg();
+    void showFailMsg(String msg,Throwable e);
 }
