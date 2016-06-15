@@ -53,9 +53,8 @@ public class Welcome extends AppCompatActivity {
     }
 
     private void go_Main() {
-//        Intent i = new Intent(Welcome.this, MainActivity.class);
-        Intent i = new Intent(Welcome.this, LoginSystem.class);
-
+        Intent i = new Intent(Welcome.this, MainActivity.class);
+//        Intent i = new Intent(Welcome.this, LoginSystem.class);
         startActivity(i);
         finish();
     }
