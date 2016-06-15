@@ -111,11 +111,10 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         ((ItemViewHolder) holder).movieOriginalTitle.setText(subject.getOriginal_title());
         ((ItemViewHolder) holder).movieYear.setText(subject.getYear());
 
-        String directorsName="";
+        String directorsName = "";
 
-        for(SubjectsBean.DirectorsBean directorsBean:subject.getDirectors())
-        {
-          directorsName=  directorsBean.getName();
+        for (SubjectsBean.DirectorsBean directorsBean : subject.getDirectors()) {
+            directorsName = directorsBean.getName();
         }
 
         ((ItemViewHolder) holder).movieDirector.setText(directorsName);
@@ -140,11 +139,11 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
     public interface OnItemClickListener {
-        public void onItemClick(View view, int position);
+        void onItemClick(View view, int position);
     }
 
     public interface OnBtnClickListener {
-        public void onBtnClick(View view, int position);
+        void onBtnClick(View view, int position);
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -180,7 +179,6 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 case -1:
                     if (mOnItemClickListener != null) {
                         mOnItemClickListener.onItemClick(v, this.getPosition());
-
                     }
                     break;
                 default:
