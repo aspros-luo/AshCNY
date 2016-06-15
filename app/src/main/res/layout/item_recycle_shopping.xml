@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ash.aiqinhaigou.com.ashcny.common.SlideView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        >
+
+        <LinearLayout
+            android:id="@+id/item_shopping_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:id="@+id/item_shopping_img"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                android:padding="5dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/item_shopping_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PS4"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:id="@+id/item_shopping_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="all for the player"
+                    android:padding="5dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/item_shopping_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_toRightOf="@+id/item_shopping_content"
+            android:background="@android:color/holo_red_dark"
+            android:src="@drawable/trash" />
+
+    </RelativeLayout>
+
+
+
+</ash.aiqinhaigou.com.ashcny.common.SlideView>
