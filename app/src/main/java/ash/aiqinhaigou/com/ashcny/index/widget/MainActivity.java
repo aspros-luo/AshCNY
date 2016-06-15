@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import ash.aiqinhaigou.com.ashcny.R;
-import ash.aiqinhaigou.com.ashcny.index.widget.HotFragment;
+import ash.aiqinhaigou.com.ashcny.shoppingcar.widget.CarFragment;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentManager mFragmentManager;
     private HotFragment mHotFragment;
+    private CarFragment mCarFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +61,12 @@ public class MainActivity extends AppCompatActivity {
     private void setSelection(int index) {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         hideFragments(transaction, mHotFragment);
+        hideFragments(transaction, mCarFragment);
         switch (index) {
             case 0:
                 if (mHotFragment == null) {
-                    mHotFragment=new HotFragment();
-                    transaction.add(R.id.main_content,mHotFragment);
+                    mHotFragment = new HotFragment();
+                    transaction.add(R.id.main_content, mHotFragment);
                 } else {
                     transaction.show(mHotFragment);
                 }
@@ -72,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
             case 1:
                 break;
             case 2:
+                if (mCarFragment == null) {
+                    mCarFragment = new CarFragment();
+                    transaction.add(R.id.main_content, mCarFragment);
+                } else {
+                    transaction.show(mCarFragment);
+                }
                 break;
             case 3:
                 break;
@@ -92,12 +100,14 @@ public class MainActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.id_tab_bottom_index:
                 setSelection(0);
+                toolbar.setTitle("首页");
                 break;
             case R.id.id_tab_bottom_friend:
                 setSelection(1);
                 break;
             case R.id.id_tab_bottom_contact:
                 setSelection(2);
+                toolbar.setTitle("清单");
                 break;
             case R.id.id_tab_bottom_setting:
                 setSelection(3);
