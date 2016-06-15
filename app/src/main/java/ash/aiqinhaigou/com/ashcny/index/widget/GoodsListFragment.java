@@ -3,9 +3,6 @@ package ash.aiqinhaigou.com.ashcny.index.widget;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,7 +10,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,16 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ash.aiqinhaigou.com.ashcny.R;
-import ash.aiqinhaigou.com.ashcny.api.HttpMethods;
 import ash.aiqinhaigou.com.ashcny.bean.SubjectsBean;
 import ash.aiqinhaigou.com.ashcny.index.adapter.GoodsAdapter;
 import ash.aiqinhaigou.com.ashcny.index.presenter.GoodsPresenter;
 import ash.aiqinhaigou.com.ashcny.index.presenter.GoodsPresenterImpl;
 import ash.aiqinhaigou.com.ashcny.index.view.GoodsView;
 import ash.aiqinhaigou.com.ashcny.presenter.SubscriberOnNextListener;
-import butterknife.Bind;
+import ash.aiqinhaigou.com.ashcny.shoppingcar.widget.CarFragment;
 import butterknife.ButterKnife;
-import rx.Subscriber;
 
 /**
  * Created by Aspros on 16/5/31.
@@ -225,6 +219,7 @@ public class GoodsListFragment extends Fragment implements SwipeRefreshLayout.On
     private GoodsAdapter.OnBtnClickListener onBtnClickListener = new GoodsAdapter.OnBtnClickListener() {
         @Override
         public void onBtnClick(View view, int position) {
+            CarFragment.addSubjectBeen(mGoodsAdapter.getItem(position));
             Toast.makeText(getActivity(), mGoodsAdapter.getItem(position).getOriginal_title(), Toast.LENGTH_SHORT).show();
         }
     };
