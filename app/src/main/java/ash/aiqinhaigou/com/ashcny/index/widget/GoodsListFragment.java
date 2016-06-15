@@ -10,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,8 @@ public class GoodsListFragment extends Fragment implements SwipeRefreshLayout.On
     private GridLayoutManager mGridLayoutManager;
     private GoodsPresenter mGoodsPresenter;
     private SubscriberOnNextListener subscriberOnNextListener;
+
+    private int currentSize = 0;
 
     public static GoodsListFragment newInstance(int type) {
         Bundle bundle = new Bundle();
@@ -99,6 +102,7 @@ public class GoodsListFragment extends Fragment implements SwipeRefreshLayout.On
         };
 
         recycleView.addOnScrollListener(mOnScrollListener);
+
         onRefresh();
         return view;
     }
@@ -118,6 +122,7 @@ public class GoodsListFragment extends Fragment implements SwipeRefreshLayout.On
                 };
                 mGoodsPresenter.loadGoods(mType, pageIndex, subscriberOnNextListener);
                 pageIndex = pageIndex + 10;
+                Log.e("index", pageIndex + "");
             }
         }
 
@@ -145,6 +150,7 @@ public class GoodsListFragment extends Fragment implements SwipeRefreshLayout.On
             pageIndex = 0;
             mGoodsBeanList = new ArrayList<SubjectsBean>();
         }
+//        showProgress();
         mGoodsPresenter.loadGoods(mType, pageIndex, subscriberOnNextListener);
 
         pageIndex = pageIndex + 10;
@@ -174,9 +180,17 @@ public class GoodsListFragment extends Fragment implements SwipeRefreshLayout.On
 //        }
 //        pageIndex += 10;
         mGoodsBeanList.addAll(goodsBeanList);
-        mGoodsAdapter.setmData(mGoodsBeanList);
-        mGoodsAdapter.notifyDataSetChanged();
-
+        if (pageIndex == 10) {
+            mGoodsAdapter.setmData(mGoodsBeanList);
+        } else {
+            //如果没有更多数据了,则隐藏footer布局
+            if (mGoodsBeanList.size() > currentSize) {
+                currentSize = mGoodsBeanList.size();
+            } else {
+                mGoodsAdapter.isShowFooter(false);
+            }
+            mGoodsAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -185,7 +199,7 @@ public class GoodsListFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     @Override
-    public void showFailMsg(String msg ,Throwable e) {
+    public void showFailMsg(String msg, Throwable e) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
@@ -195,6 +209,7 @@ public class GoodsListFragment extends Fragment implements SwipeRefreshLayout.On
      * @param positions
      * @return
      */
+
     private int getMaxPosition(int[] positions) {
         int size = positions.length;
         int maxPosition = Integer.MIN_VALUE;
