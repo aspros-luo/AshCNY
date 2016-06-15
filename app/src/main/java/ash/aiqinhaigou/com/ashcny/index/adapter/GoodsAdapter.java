@@ -70,14 +70,15 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-//        if (!mShowFooter) {
-//            return TYPE_ITEM;
-//        }
-//        if (position + 1 == getItemCount()) {
-//            return TYPE_FOOTER;
-//        } else {
-        return TYPE_ITEM;
-//        }
+        if (!mShowFooter) {
+            return TYPE_ITEM;
+        }
+        if (position + 1 == getItemCount()) {
+            return TYPE_FOOTER;
+        } else {
+            return TYPE_ITEM;
+        }
+//        return TYPE_FOOTER;
     }
 
     @Override
@@ -95,29 +96,39 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        //显示图片的配置
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
+        if(holder instanceof ItemViewHolder)
+        {
+            //显示图片的配置
+            DisplayImageOptions options = new DisplayImageOptions.Builder()
 //                .showImageOnLoading(R.drawable.)
 //                .showImageOnFail(R.drawable.ic_error)
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
+                    .cacheInMemory(true)
+                    .cacheOnDisk(true)
+                    .bitmapConfig(Bitmap.Config.RGB_565)
+                    .build();
+            SubjectsBean subject = mData.get(position);
+            if(subject==null)
+            {
+                return;
+            }
+            else
+            {
 
-        SubjectsBean subject = mData.get(position);
-        ImageLoader.getInstance().displayImage(subject.getImages().getLarge(), ((ItemViewHolder) holder).movieImg, options);
-        ((ItemViewHolder) holder).movieTitle.setText(subject.getTitle());
-        ((ItemViewHolder) holder).movieOriginalTitle.setText(subject.getOriginal_title());
-        ((ItemViewHolder) holder).movieYear.setText(subject.getYear());
+                ImageLoader.getInstance().displayImage(subject.getImages().getLarge(), ((ItemViewHolder) holder).movieImg, options);
+                ((ItemViewHolder) holder).movieTitle.setText(subject.getTitle());
+                ((ItemViewHolder) holder).movieOriginalTitle.setText(subject.getOriginal_title());
+                ((ItemViewHolder) holder).movieYear.setText(subject.getYear());
 
-        String directorsName = "";
+                String directorsName = "";
 
-        for (SubjectsBean.DirectorsBean directorsBean : subject.getDirectors()) {
-            directorsName = directorsBean.getName();
+                for (SubjectsBean.DirectorsBean directorsBean : subject.getDirectors()) {
+                    directorsName = directorsBean.getName();
+                }
+
+                ((ItemViewHolder) holder).movieDirector.setText(directorsName);
+            }
         }
 
-        ((ItemViewHolder) holder).movieDirector.setText(directorsName);
     }
 
     public class FooterViewHolder extends RecyclerView.ViewHolder {
@@ -133,8 +144,8 @@ public class GoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (mData == null) {
             return begin;
         }
-//        return mData.size() + begin;
-        return mData.size();
+        return mData.size() + begin;
+//        return mData.size();
     }
 
 
